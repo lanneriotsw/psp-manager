@@ -532,6 +532,9 @@ install_psp() {
     local product_type="${1}"
     local version_name="${2}"
     local file_name="psp-$(echo ${product_type} | sed 's/-//g' | tr '[:upper:]' '[:lower:]')-${version_name}.tar.bz2"
+    local version_major=$(echo ${version_name} | cut -d'.' -f 1)
+    local version_minor=$(echo ${version_name} | cut -d'.' -f 2)
+    local version_patch=$(echo ${version_name} | cut -d'.' -f 3)
 
     mkdir -p ${DOWNLOAD_DIR}
 
@@ -544,6 +547,10 @@ install_psp() {
         printf "\\n  %b Install ${file_name}\\n" "${INFO}"
         mkdir -p ${PSP_INSTALL_DIR}
         tar jxf ${DOWNLOAD_DIR}/${file_name} -C ${PSP_INSTALL_DIR}
+        # Add replacement Makefile for PSP version 2.1 to fix "liblmbapi.so: undefined symbol" issue
+        if [ ${version_major} = "2" ] && [ ${version_minor} = "1" ]; then
+            cp ${PM_LOCAL_REPO}/Makefile ${PSP_INSTALL_DIR}/sdk/src_sdk/Makefile
+        fi
         make -C ${PSP_INSTALL_DIR}
     fi
 
