@@ -1,6 +1,11 @@
 # PSP Manager
 
-[Lanner PSP](https://link.lannerinc.com/psp) is an SDK that facilitates communication between you and your Lanner IPC's IO.
+[Lanner PSP](https://link.lannerinc.com/psp) aims to simplify and enhance the efficiency of customer’s application implementation. 
+When developers intend to write an application that involves hardware access, 
+they were required to fully understand the specifications to utilize the drivers. 
+This is often being considered a time consuming job which requires lots of related knowledge and time. 
+In order to achieve better full access hardware functionality, 
+Lanner invests great effort to ease customer’s development journey with the release of a suite of reliable Software APIs.
 
 PSP Manager is a powerful tool that can help you easily install [Lanner PSP](https://link.lannerinc.com/psp).
 
