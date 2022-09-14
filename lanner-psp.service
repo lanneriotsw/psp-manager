@@ -1,0 +1,16 @@
+[Unit]
+Description=Lanner PSP load drivers
+Documentation=https://link.lannerinc.com/psp
+ConditionPathExists=/opt/lanner/psp/bin/amd64/loaddriver.sh
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/env bash -c 'cd /opt/lanner/psp/bin/amd64/ && source loaddriver.sh'
+TimeoutSec=0
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=lanner-psp
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
