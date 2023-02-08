@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # PSP: Platform Support Package
-# (c) 2022 Lanner Electronics Inc. (https://www.lannerinc.com)
+# (c) 2023 Lanner Electronics Inc. (https://www.lannerinc.com)
 # Lanner PSP is an SDK that facilitates communication between you and your Lanner IPC's IO.
 #
 # Completely uninstalls PSP
