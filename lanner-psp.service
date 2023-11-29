@@ -1,6 +1,6 @@
 [Unit]
 Description=Lanner PSP load drivers
-Documentation=https://link.lannerinc.com/psp
+Documentation=https://link.lannerinc.com/development/lanner-psp
 ConditionPathExists=/opt/lanner/psp/bin/amd64/loaddriver.sh
 
 [Service]

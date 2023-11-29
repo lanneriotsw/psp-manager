@@ -9,7 +9,7 @@
 # This file is copyright under the latest version of the EUPL.
 # Please see LICENSE file for your rights under this license.
 
-# link.lannerinc.com/psp
+# https://link.lannerinc.com/development/lanner-psp
 #
 # Install with this command (from your Linux machine):
 #
@@ -115,6 +115,12 @@ check_input_param() {
         printf "        curl -sSL ${BASE_URL}/psp/install | bash -s LEC-7242\\n"
         exit 1
     fi
+    if [[ "${reconfigure}" == true && ! -f "${PSP_INSTALL_DIR}/bin/amd64/utils/sdk_dll" ]]; then
+        printf "%b  %b %s\\n" "${OVER}" "${CROSS}" "${str}"
+        printf "  %bReconfigure can only be performed after the PSP has been installed%b\\n" "${COL_LIGHT_RED}" "${COL_NC}"
+        exit 1
+        # local product_type=$("${PSP_INSTALL_DIR}/bin/amd64/utils/sdk_dll" -v | grep PSP | cut -d' ' -f 3)
+    fi
 }
 
 check_if_psp_support() {
@@ -128,8 +134,8 @@ check_if_psp_support() {
     fi
     printf "  %b %s..." "${INFO}" "${str}"
     # Make an HTTP HEAD request to check if the specified PSP information exists
-    local rc=$(curl -s --connect-timeout 5 -o /dev/null -w "%{http_code}" \
-        "${BASE_URL}/api/v1/psp/info?model=${product_type}&version=${version_name}")
+    local rc=$(curl -s --connect-timeout 10 -o /dev/null -w "%{http_code}" \
+        "${BASE_URL}/api/psp/info?model=${product_type}&version=${version_name}")
     # Check the response code
     case "${rc}" in
         "000") # Not connected to server or request timed out
@@ -563,7 +569,7 @@ install_psp() {
     fi
     # Make an HTTP GET request to get the specified PSP information
     local pkg_info=$(curl -s --connect-timeout 10 -X "GET" -H "accept: application/json" \
-        "${BASE_URL}/api/v1/psp/info?model=${product_type}&version=${version_name}")
+        "${BASE_URL}/api/psp/info?model=${product_type}&version=${version_name}")
     # Parse the response message
     local pkg_version=$(echo "${pkg_info}" | jq -r '.version')
     local pkg_version_major=$(echo ${pkg_version} | cut -d'.' -f 1)
@@ -724,7 +730,9 @@ main() {
 
     check_input_param "$@"
 
-    check_if_psp_support "$@"
+    if [[ "${reconfigure}" == false ]]; then
+        check_if_psp_support "$@"
+    fi
 
     # Check for supported package managers so that we may install dependencies
     detect_package_manager

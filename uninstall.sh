@@ -9,7 +9,7 @@
 # This file is copyright under the latest version of the EUPL.
 # Please see LICENSE file for your rights under this license.
 
-# link.lannerinc.com/psp
+# https://link.lannerinc.com/development/lanner-psp
 #
 # Uninstall with this command (from your Linux machine):
 #
@@ -104,10 +104,10 @@ removeAndPurge() {
 removeNoPurge() {
     # Remove PSP
     stop_service lanner-psp
-    disable_service lanner-psp
+    disable_service lanner-psp || true
     rm -f /lib/systemd/system/lanner-psp.service &> /dev/null
-    rmmod /opt/lanner/psp/bin/amd64/driver/lmbiodrv.ko &> /dev/null
-    # modprobe -r i2c-i801 &> /dev/null
+    rmmod /opt/lanner/psp/bin/amd64/driver/lmbiodrv.ko &> /dev/null || true
+    # modprobe -r i2c-i801 &> /dev/null || true
     rm -rf /opt/lanner/psp &> /dev/null
     rm -rf /opt/lanner/psp-manager &> /dev/null
 
